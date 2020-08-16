@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CHECK</title>
+</head>
+<body>
+	<img id="map" src="map.png" width="400" height="400">
+	<p id="output"></p>
+	<script>
+		document.getElementById("map").style.border = "1px solid #000";
+		document.getElementById("map").style.cursor = "pointer";
+
+		var count = 0;
+		var points = [];
+
+		var circle = function(points){
+
+			let span = document.createElement("SPAN");
+			document.body.appendChild(span);
+
+			for(let i = 0; i < document.getElementsByTagName("span").length; i++){//points.length
+				let doc = document.getElementsByTagName("span")[i];
+				doc.style.position = "absolute";
+				doc.style.border = "4px solid #7dffff";
+				doc.style.top = points[2 * i + 1] + "px ";
+				doc.style.left = points[2 * i] + "px";
+				doc.style.width = "1px";
+				doc.style.height = "1px";
+				doc.style.borderRadius = "100%"
+				doc.style.cursor = "pointer";
+			}
+		}
+
+
+		var get_coordinate = function(){
+			return Math.floor(Math.random() * map.width + 8);
+		}
+
+
+		var get_distance = function(ex, ey, tx, ty){
+			let differenceX = ex - tx,
+					differenceY = ey - ty;
+			return Math.sqrt((differenceX * differenceX) + (differenceY * differenceY))
+		}
+
+
+
+		output.innerHTML = count + " step";
+
+		map.onclick = function(e){
+			let distance = get_distance(e.clientX, e.clientY, treasureX, treasureY);
+
+			points.push(e.clientX);
+			points.push(e.clientY);
+
+			circle(points);
+
+console.log(e.clientX + " " + e.clientY);
+
+			if(Math.abs(distance) <= 10)
+				alert("клад найден!\n" + e.clientX + " " + e.clientY + "\n" + treasureX + " " + treasureY);
+				
+				count++;
+				output.innerHTML = count + " step";
+			};
+
+		
+		var treasureX = get_coordinate(),
+				treasureY = get_coordinate();
+				
+console.log(treasureX + " : " + treasureY);
+	
+	</script>
+</body>
+</html>
